@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camp Scoreboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<script type="module">
+  // ============================================================
+  //  FIREBASE CONFIGURATION
+  // ============================================================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDvdqWjl5UkHEwdd0XBkhUXuyKCN4NpcfU",
+    authDomain: "scius-camp-leaderboard.firebaseapp.com",
+    projectId: "scius-camp-leaderboard",
+    storageBucket: "scius-camp-leaderboard.firebasestorage.app",
+    messagingSenderId: "641396962013",
+    appId: "1:641396962013:web:6d040494639af2c8eb2134"
+  };
+  // Initialize Firebase
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  // ============================================================
+  //  ADMIN PIN — change this to whatever you want
+  // ============================================================
+  const ADMIN_PIN = "3516";
+
+  // ============================================================
+  //  INITIAL DATA
+  //  On first load this seeds Firestore. After that, edits in
+  //  the admin panel are the source of truth — this block is
+  //  ignored if the documents already exist.
+  // ============================================================
+  const INITIAL_TEAMS = [
+    { id:"red",    name:"Red Hawks",     colorLight:"#FAECE7", colorDark:"#712B13", colorText:"#993C1D", pts:410 },
+    { id:"blue",   name:"Blue Dolphins", colorLight:"#E6F1FB", colorDark:"#0C447C", colorText:"#185FA5", pts:390 },
+    { id:"green",  name:"Green Foxes",   colorLight:"#EAF3DE", colorDark:"#27500A", colorText:"#3B6D11", pts:375 },
+    { id:"amber",  name:"Gold Bears",    colorLight:"#FAEEDA", colorDark:"#633806", colorText:"#854F0B", pts:355 },
+    { id:"purple", name:"Purple Owls",   colorLight:"#EEEDFE", colorDark:"#3C3489", colorText:"#534AB7", pts:340 },
+    { id:"teal",   name:"Teal Turtles",  colorLight:"#E1F5EE", colorDark:"#085041", colorText:"#0F6E56", pts:300 },
+  ];
+
+  const INITIAL_PLAYERS = [
+    { id:"aaliyah-m",  name:"Aaliyah M.",  team:"red",    pts:95,  photo:"" },
+    { id:"jordan-k",   name:"Jordan K.",   team:"red",    pts:88,  photo:"" },
+    { id:"sam-t",      name:"Sam T.",      team:"red",    pts:82,  photo:"" },
+    { id:"morgan-b",   name:"Morgan B.",   team:"red",    pts:80,  photo:"" },
+    { id:"casey-l",    name:"Casey L.",    team:"red",    pts:65,  photo:"" },
+    { id:"riley-p",    name:"Riley P.",    team:"blue",   pts:91,  photo:"" },
+    { id:"avery-w",    name:"Avery W.",    team:"blue",   pts:85,  photo:"" },
+    { id:"quinn-s",    name:"Quinn S.",    team:"blue",   pts:79,  photo:"" },
+    { id:"taylor-n",   name:"Taylor N.",   team:"blue",   pts:75,  photo:"" },
+    { id:"drew-c",     name:"Drew C.",     team:"blue",   pts:60,  photo:"" },
+    { id:"skylar-j",   name:"Skylar J.",   team:"green",  pts:89,  photo:"" },
+    { id:"finley-r",   name:"Finley R.",   team:"green",  pts:83,  photo:"" },
+    { id:"rowan-a",    name:"Rowan A.",    team:"green",  pts:76,  photo:"" },
+    { id:"blake-v",    name:"Blake V.",    team:"green",  pts:70,  photo:"" },
+    { id:"emery-h",    name:"Emery H.",    team:"green",  pts:57,  photo:"" },
+    { id:"cameron-d",  name:"Cameron D.",  team:"amber",  pts:87,  photo:"" },
+    { id:"logan-m",    name:"Logan M.",    team:"amber",  pts:80,  photo:"" },
+    { id:"parker-g",   name:"Parker G.",   team:"amber",  pts:72,  photo:"" },
+    { id:"peyton-f",   name:"Peyton F.",   team:"amber",  pts:65,  photo:"" },
+    { id:"reese-o",    name:"Reese O.",    team:"amber",  pts:51,  photo:"" },
+    { id:"harlow-z",   name:"Harlow Z.",   team:"purple", pts:84,  photo:"" },
+    { id:"sage-x",     name:"Sage X.",     team:"purple", pts:78,  photo:"" },
+    { id:"elliot-q",   name:"Elliot Q.",   team:"purple", pts:71,  photo:"" },
+    { id:"phoenix-y",  name:"Phoenix Y.",  team:"purple", pts:63,  photo:"" },
+    { id:"nova-i",     name:"Nova I.",     team:"purple", pts:44,  photo:"" },
+    { id:"river-e",    name:"River E.",    team:"teal",   pts:77,  photo:"" },
+    { id:"sunny-u",    name:"Sunny U.",    team:"teal",   pts:68,  photo:"" },
+    { id:"indigo-p",   name:"Indigo P.",   team:"teal",   pts:62,  photo:"" },
+    { id:"wren-l",     name:"Wren L.",     team:"teal",   pts:55,  photo:"" },
+    { id:"zephyr-k",   name:"Zephyr K.",   team:"teal",   pts:38,  photo:"" },
+  ];
+
+  // ============================================================
+  //  SEED (runs once per doc if it doesn't exist yet)
+  // ============================================================
+  async function seedIfNeeded() {
+    for (const t of INITIAL_TEAMS) {
+      const ref = doc(db, "teams", t.id);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) await setDoc(ref, t);
+    }
+    for (const p of INITIAL_PLAYERS) {
+      const ref = doc(db, "players", p.id);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) await setDoc(ref, p);
+    }
+  }
+
+  // ============================================================
+  //  STATE
+  // ============================================================
+  let teams   = {};
+  let players = {};
+  let currentTab = "ind";
+  let adminOpen  = false;
+
+  // ============================================================
+  //  RENDER
+  // ============================================================
+  const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  function initials(name) {
+    return name.split(" ").map(w => w[0]).join("");
+  }
+
+  function medal(r) {
+    return r === 1 ? "🥇" : r === 2 ? "🥈" : r === 3 ? "🥉" : "";
+  }
+
+  function avatarHTML(player, team) {
+    const bg    = dark ? team.colorDark  : team.colorLight;
+    const color = team.colorText;
+    if (player.photo) {
+      return `<div class="avatar"><img src="${player.photo}" alt="${player.name}"></div>`;
+    }
+    return `<div class="avatar" style="background:${bg};color:${color}">${initials(player.name)}</div>`;
+  }
+
+  function renderBoard() {
+    renderInd();
+    renderTeam();
+    renderAdmin();
+  }
+
+  function renderInd() {
+    const sorted = Object.values(players).sort((a, b) => b.pts - a.pts);
+    const board  = document.getElementById("board-ind");
+    if (!board) return;
+    board.innerHTML = sorted.map((p, i) => {
+      const t   = teams[p.team] || {};
+      const r   = i + 1;
+      const bg  = dark ? t.colorDark : t.colorLight;
+      return `<div class="row" style="background:${bg}">
+        <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
+        ${avatarHTML(p, t)}
+        <div class="info">
+          <div class="pname" style="color:${t.colorText}">${p.name}</div>
+          <div class="psub">${t.name || ""}</div>
+        </div>
+        <div class="pts-wrap">
+          <span class="pts-big" style="color:${t.colorText}">${p.pts}</span>
+          <span class="pts-lbl">pts</span>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  function renderTeam() {
+    const sorted = Object.values(teams).sort((a, b) => b.pts - a.pts);
+    const board  = document.getElementById("board-team");
+    if (!board) return;
+    board.innerHTML = sorted.map((t, i) => {
+      const r  = i + 1;
+      const bg = dark ? t.colorDark : t.colorLight;
+      return `<div class="row" style="background:${bg}">
+        <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
+        <div class="avatar" style="background:${bg};color:${t.colorText};font-size:1.3rem;border:2px solid ${t.colorText}">&#9733;</div>
+        <div class="info">
+          <div class="pname" style="color:${t.colorText};font-size:1.05rem">${t.name}</div>
+          <div class="psub">Team total</div>
+        </div>
+        <div class="pts-wrap">
+          <span class="pts-big" style="color:${t.colorText}">${t.pts}</span>
+          <span class="pts-lbl">pts</span>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  function renderAdmin() {
+    const panel = document.getElementById("admin-panel");
+    if (!panel || !adminOpen) return;
+
+    const playersSorted = Object.values(players).sort((a,b) => a.name.localeCompare(b.name));
+    const teamsSorted   = Object.values(teams).sort((a,b) => a.name.localeCompare(b.name));
+
+    panel.innerHTML = `
+      <div class="admin-section">
+        <div class="admin-heading">Individual scores</div>
+        ${playersSorted.map(p => {
+          const t = teams[p.team] || {};
+          return `<div class="admin-row">
+            <span class="admin-name">${p.name}</span>
+            <span class="admin-team" style="color:${t.colorText}">${t.name||""}</span>
+            <div class="admin-controls">
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-5)">−5</button>
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-1)">−1</button>
+              <span class="admin-pts">${p.pts}</span>
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',1)">+1</button>
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',5)">+5</button>
+            </div>
+          </div>`;
+        }).join("")}
+      </div>
+      <div class="admin-section" style="margin-top:1.5rem">
+        <div class="admin-heading">Team scores</div>
+        ${teamsSorted.map(t => `<div class="admin-row">
+          <span class="admin-name" style="color:${t.colorText}">${t.name}</span>
+          <div class="admin-controls">
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',-10)">−10</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',-5)">−5</button>
+            <span class="admin-pts">${t.pts}</span>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',5)">+5</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',10)">+10</button>
+          </div>
+        </div>`).join("")}
+      </div>`;
+  }
+
+  // ============================================================
+  //  SCORE UPDATES
+  // ============================================================
+  window.adjustPlayer = async function(id, delta) {
+    const current = players[id].pts;
+    const next    = Math.max(0, current + delta);
+    await updateDoc(doc(db, "players", id), { pts: next });
+  };
+
+  window.adjustTeam = async function(id, delta) {
+    const current = teams[id].pts;
+    const next    = Math.max(0, current + delta);
+    await updateDoc(doc(db, "teams", id), { pts: next });
+  };
+
+  // ============================================================
+  //  TAB SWITCHING
+  // ============================================================
+  window.showTab = function(tab) {
+    currentTab = tab;
+    document.getElementById("board-ind").style.display  = tab === "ind"  ? "flex" : "none";
+    document.getElementById("board-team").style.display = tab === "team" ? "flex" : "none";
+    document.getElementById("tab-ind").className  = "tab"  + (tab === "ind"  ? " active-ind"  : "");
+    document.getElementById("tab-team").className = "tab"  + (tab === "team" ? " active-team" : "");
+  };
+
+  // ============================================================
+  //  ADMIN PANEL
+  // ============================================================
+  window.openAdmin = function() {
+    const pin = document.getElementById("pin-input").value;
+    if (pin !== ADMIN_PIN) {
+      document.getElementById("pin-error").style.display = "block";
+      return;
+    }
+    document.getElementById("pin-error").style.display = "none";
+    document.getElementById("pin-gate").style.display  = "none";
+    adminOpen = true;
+    document.getElementById("admin-panel").style.display = "block";
+    renderAdmin();
+  };
+
+  window.closeAdmin = function() {
+    adminOpen = false;
+    document.getElementById("admin-panel").style.display = "none";
+    document.getElementById("pin-gate").style.display    = "flex";
+    document.getElementById("pin-input").value = "";
+  };
+
+  window.toggleAdminDrawer = function() {
+    const drawer = document.getElementById("admin-drawer");
+    drawer.style.display = drawer.style.display === "none" ? "block" : "none";
+    if (drawer.style.display === "none") closeAdmin();
+  };
+
+  // ============================================================
+  //  LIVE LISTENERS
+  // ============================================================
+  function listenTeams() {
+    onSnapshot(collection(db, "teams"), snap => {
+      snap.forEach(d => { teams[d.id] = { id: d.id, ...d.data() }; });
+      renderBoard();
+    });
+  }
+
+  function listenPlayers() {
+    onSnapshot(collection(db, "players"), snap => {
+      snap.forEach(d => { players[d.id] = { id: d.id, ...d.data() }; });
+      renderBoard();
+    });
+  }
+
+  // ============================================================
+  //  INIT
+  // ============================================================
+  async function init() {
+    document.getElementById("loading").style.display = "flex";
+    await seedIfNeeded();
+    listenTeams();
+    listenPlayers();
+    document.getElementById("loading").style.display = "none";
+  }
+
+  init();
+</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #f5f3ee;
+    min-height: 100vh;
+    color: #1a1a1a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body { background: #1a1a1a; color: #f0ede8; }
+    .drawer-inner { background: #242424; border-color: #333; }
+    .admin-row { border-color: #333; }
+  }
+
+  /* ---- Layout ---- */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ---- Header ---- */
+  .lb-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2px;
+  }
+  .lb-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ---- Tabs ---- */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .tab {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 7px 28px;
+    border-radius: 999px;
+    border: 1.5px solid #ccc;
+    cursor: pointer;
+    background: transparent;
+    color: #888;
+    transition: all .15s;
+  }
+  .active-ind  { background: #D85A30; border-color: #D85A30; color: #fff; }
+  .active-team { background: #1D9E75; border-color: #1D9E75; color: #fff; }
+
+  /* ---- Board ---- */
+  .board { display: flex; flex-direction: column; gap: 6px; }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 0.5px solid rgba(0,0,0,0.06);
+    transition: transform .1s;
+  }
+  .row:hover { transform: translateX(4px); }
+
+  .rank-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 28px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+  .info { flex: 1; min-width: 0; }
+  .pname {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .psub { font-size: 12px; color: #888; margin-top: 1px; }
+
+  .pts-wrap { text-align: right; }
+  .pts-big {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+  }
+  .pts-lbl { font-size: 11px; color: #888; }
+
+  /* ---- Loading ---- */
+  #loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    color: #888;
+  }
+
+  /* ---- Admin toggle button ---- */
+  .admin-toggle {
+    display: block;
+    margin: 2rem auto 0;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.9rem;
+    padding: 6px 20px;
+    border-radius: 999px;
+    border: 1.5px solid #ccc;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+  }
+  .admin-toggle:hover { border-color: #999; color: #666; }
+
+  /* ---- Admin drawer ---- */
+  #admin-drawer {
+    margin-top: 1rem;
+    display: none;
+  }
+  .drawer-inner {
+    background: #fff;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  /* ---- PIN gate ---- */
+  #pin-gate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  #pin-gate label {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    color: #555;
+  }
+  #pin-input {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    width: 110px;
+    letter-spacing: 4px;
+  }
+  #pin-input:focus { outline: none; border-color: #D85A30; }
+  #pin-submit {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.95rem;
+    padding: 6px 18px;
+    border-radius: 999px;
+    border: none;
+    background: #D85A30;
+    color: #fff;
+    cursor: pointer;
+  }
+  #pin-error {
+    display: none;
+    font-size: 13px;
+    color: #c0392b;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  /* ---- Admin panel ---- */
+  #admin-panel { display: none; }
+
+  .admin-heading {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #555;
+  }
+
+  .admin-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid #eee;
+    flex-wrap: wrap;
+  }
+  .admin-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex: 1;
+    min-width: 100px;
+  }
+  .admin-team {
+    font-size: 12px;
+    min-width: 90px;
+  }
+  .admin-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .adj-btn {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.85rem;
+    padding: 3px 9px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .adj-btn:hover { background: #efefef; }
+  .admin-pts {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 36px;
+    text-align: center;
+  }
+
+  .close-admin-btn {
+    display: block;
+    margin: 1.25rem auto 0;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.9rem;
+    padding: 6px 20px;
+    border-radius: 999px;
+    border: 1.5px solid #ccc;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+  }
+  .close-admin-btn:hover { color: #555; border-color: #999; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lb-title">Camp Scoreboard</div>
+  <p class="lb-sub">Summer 2026 &middot; 30 campers &middot; 6 teams</p>
+
+  <div class="tabs">
+    <button class="tab active-ind" id="tab-ind"  onclick="showTab('ind')">Individual</button>
+    <button class="tab"            id="tab-team" onclick="showTab('team')">Teams</button>
+  </div>
+
+  <div id="loading">Loading scores&hellip;</div>
+
+  <div id="board-ind"  class="board"></div>
+  <div id="board-team" class="board" style="display:none"></div>
+
+  <!-- Admin toggle -->
+  <button class="admin-toggle" onclick="toggleAdminDrawer()">Admin</button>
+
+  <div id="admin-drawer">
+    <div class="drawer-inner">
+
+      <div id="pin-gate">
+        <label for="pin-input">Enter PIN:</label>
+        <input type="password" id="pin-input" maxlength="8" placeholder="••••"
+               onkeydown="if(event.key==='Enter') openAdmin()">
+        <button id="pin-submit" onclick="openAdmin()">Unlock</button>
+        <span id="pin-error">Incorrect PIN. Try again.</span>
+      </div>
+
+      <div id="admin-panel">
+        <!-- populated by renderAdmin() -->
+        <button class="close-admin-btn" onclick="closeAdmin()">Lock admin</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
