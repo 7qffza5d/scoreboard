@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camp Scoreboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<script type="module" src="script.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <div class="lb-title">Camp Scoreboard</div>
+  <p class="lb-sub">Summer 2026 &middot; 30 campers &middot; 6 teams</p>
+
+  <div class="tabs">
+    <button class="tab active-ind" id="tab-ind"  onclick="showTab('ind')">Individual</button>
+    <button class="tab"            id="tab-team" onclick="showTab('team')">Teams</button>
+  </div>
+
+  <div id="loading">Loading scores&hellip;</div>
+
+  <div id="board-ind"  class="board"></div>
+  <div id="board-team" class="board" style="display:none"></div>
+
+  <!-- Admin toggle -->
+  <button class="admin-toggle" onclick="toggleAdminDrawer()">Admin</button>
+
+  <div id="admin-drawer">
+    <div class="drawer-inner">
+
+      <div id="pin-gate">
+        <label for="pin-input">Enter PIN:</label>
+        <input type="password" id="pin-input" maxlength="8" placeholder="••••"
+               onkeydown="if(event.key==='Enter') openAdmin()">
+        <button id="pin-submit" onclick="openAdmin()">Unlock</button>
+        <span id="pin-error">Incorrect PIN. Try again.</span>
+      </div>
+
+      <div id="admin-panel">
+        <!-- populated by renderAdmin() -->
+        <button class="close-admin-btn" onclick="closeAdmin()">Lock admin</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

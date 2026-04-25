@@ -1,0 +1,343 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: #f5f3ee;
+    min-height: 100vh;
+    color: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #1a1a1a;
+        color: #f0ede8;
+    }
+
+    .drawer-inner {
+        background: #242424;
+        border-color: #333;
+    }
+
+    .admin-row {
+        border-color: #333;
+    }
+}
+
+/* ---- Layout ---- */
+.container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+}
+
+/* ---- Header ---- */
+.lb-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.lb-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 1.5rem;
+}
+
+/* ---- Tabs ---- */
+.tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.tab {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 7px 28px;
+    border-radius: 999px;
+    border: 1.5px solid #ccc;
+    cursor: pointer;
+    background: transparent;
+    color: #888;
+    transition: all .15s;
+}
+
+.active-ind {
+    background: #D85A30;
+    border-color: #D85A30;
+    color: #fff;
+}
+
+.active-team {
+    background: #1D9E75;
+    border-color: #1D9E75;
+    color: #fff;
+}
+
+/* ---- Board ---- */
+.board {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 0.5px solid rgba(0, 0, 0, 0.06);
+    transition: transform .1s;
+}
+
+.row:hover {
+    transform: translateX(4px);
+}
+
+.rank-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 28px;
+    text-align: center;
+}
+
+.avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info {
+    flex: 1;
+    min-width: 0;
+}
+
+.pname {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.psub {
+    font-size: 12px;
+    color: #888;
+    margin-top: 1px;
+}
+
+.pts-wrap {
+    text-align: right;
+}
+
+.pts-big {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+}
+
+.pts-lbl {
+    font-size: 11px;
+    color: #888;
+}
+
+/* ---- Loading ---- */
+#loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    color: #888;
+}
+
+/* ---- Admin toggle button ---- */
+.admin-toggle {
+    display: block;
+    margin: 2rem auto 0;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.9rem;
+    padding: 6px 20px;
+    border-radius: 999px;
+    border: 1.5px solid #ccc;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.admin-toggle:hover {
+    border-color: #999;
+    color: #666;
+}
+
+/* ---- Admin drawer ---- */
+#admin-drawer {
+    margin-top: 1rem;
+    display: none;
+}
+
+.drawer-inner {
+    background: #fff;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 1.25rem 1.25rem 1.5rem;
+}
+
+/* ---- PIN gate ---- */
+#pin-gate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#pin-gate label {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    color: #555;
+}
+
+#pin-input {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    width: 110px;
+    letter-spacing: 4px;
+}
+
+#pin-input:focus {
+    outline: none;
+    border-color: #D85A30;
+}
+
+#pin-submit {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.95rem;
+    padding: 6px 18px;
+    border-radius: 999px;
+    border: none;
+    background: #D85A30;
+    color: #fff;
+    cursor: pointer;
+}
+
+#pin-error {
+    display: none;
+    font-size: 13px;
+    color: #c0392b;
+    width: 100%;
+    margin-top: 4px;
+}
+
+/* ---- Admin panel ---- */
+#admin-panel {
+    display: none;
+}
+
+.admin-heading {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.admin-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid #eee;
+    flex-wrap: wrap;
+}
+
+.admin-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex: 1;
+    min-width: 100px;
+}
+
+.admin-team {
+    font-size: 12px;
+    min-width: 90px;
+}
+
+.admin-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.adj-btn {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.85rem;
+    padding: 3px 9px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    cursor: pointer;
+    transition: background .1s;
+}
+
+.adj-btn:hover {
+    background: #efefef;
+}
+
+.admin-pts {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 36px;
+    text-align: center;
+}
+
+.close-admin-btn {
+    display: block;
+    margin: 1.25rem auto 0;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.9rem;
+    padding: 6px 20px;
+    border-radius: 999px;
+    border: 1.5px solid #ccc;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+}
+
+.close-admin-btn:hover {
+    color: #555;
+    border-color: #999;
+}
