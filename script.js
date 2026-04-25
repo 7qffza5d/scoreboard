@@ -98,10 +98,6 @@ let adminOpen = false;
 // ============================================================
 const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-function initials(name) {
-    return name.split(" ").map(w => w[0]).join("");
-}
-
 function medal(r) {
     return r === 1 ? "🥇" : r === 2 ? "🥈" : r === 3 ? "🥉" : "";
 }
@@ -112,7 +108,7 @@ function avatarHTML(player, team) {
     if (player.photo) {
         return `<div class="avatar"><img src="${player.photo}" alt="${player.name}"></div>`;
     }
-    return `<div class="avatar" style="background:${bg};color:${color}">${initials(player.name)}</div>`;
+    return `<div class="avatar" style="background:${bg};color:${color}">${player.name}</div>`;
 }
 
 function renderBoard() {
