@@ -37,36 +37,36 @@ const INITIAL_TEAMS = [
 ];
 
 const INITIAL_PLAYERS = [
-    { id: "aaliyah-m", name: "Aaliyah M.", team: "", pts: 0, photo: "" },
-    { id: "jordan-k", name: "Jordan K.", team: "", pts: 0, photo: "" },
-    { id: "sam-t", name: "Sam T.", team: "", pts: 0, photo: "" },
-    { id: "morgan-b", name: "Morgan B.", team: "", pts: 0, photo: "" },
-    { id: "casey-l", name: "Casey L.", team: "", pts: 0, photo: "" },
-    { id: "riley-p", name: "Riley P.", team: "", pts: 0, photo: "" },
-    { id: "avery-w", name: "Avery W.", team: "", pts: 0, photo: "" },
-    { id: "quinn-s", name: "Quinn S.", team: "", pts: 0, photo: "" },
-    { id: "taylor-n", name: "Taylor N.", team: "", pts: 0, photo: "" },
-    { id: "drew-c", name: "Drew C.", team: "", pts: 0, photo: "" },
-    { id: "skylar-j", name: "Skylar J.", team: "", pts: 0, photo: "" },
-    { id: "finley-r", name: "Finley R.", team: "", pts: 0, photo: "" },
-    { id: "rowan-a", name: "Rowan A.", team: "", pts: 0, photo: "" },
-    { id: "blake-v", name: "Blake V.", team: "", pts: 0, photo: "" },
-    { id: "emery-h", name: "Emery H.", team: "", pts: 0, photo: "" },
-    { id: "cameron-d", name: "Cameron D.", team: "", pts: 0, photo: "" },
-    { id: "logan-m", name: "Logan M.", team: "", pts: 0, photo: "" },
-    { id: "parker-g", name: "Parker G.", team: "", pts: 0, photo: "" },
-    { id: "peyton-f", name: "Peyton F.", team: "", pts: 0, photo: "" },
-    { id: "reese-o", name: "Reese O.", team: "", pts: 0, photo: "" },
-    { id: "harlow-z", name: "Harlow Z.", team: "", pts: 0, photo: "" },
-    { id: "sage-x", name: "Sage X.", team: "", pts: 0, photo: "" },
-    { id: "elliot-q", name: "Elliot Q.", team: "", pts: 0, photo: "" },
-    { id: "phoenix-y", name: "Phoenix Y.", team: "", pts: 0, photo: "" },
-    { id: "nova-i", name: "Nova I.", team: "", pts: 0, photo: "" },
-    { id: "river-e", name: "River E.", team: "", pts: 0, photo: "" },
-    { id: "sunny-u", name: "Sunny U.", team: "", pts: 0, photo: "" },
-    { id: "indigo-p", name: "Indigo P.", team: "", pts: 0, photo: "" },
-    { id: "wren-l", name: "Wren L.", team: "", pts: 0, photo: "" },
-    { id: "zephyr-k", name: "Zephyr K.", team: "", pts: 0, photo: "" },
+    { id: "pcm-lookoon", name: "ลูกคุณ", team: "", pts: 0, photo: "" },
+    { id: "bcm-atta", name: "อัตตา", team: "", pts: 0, photo: "" },
+    { id: "bcm-pukan", name: "พู่กัน", team: "", pts: 0, photo: "" },
+    { id: "ssk-top", name: "ท็อป", team: "", pts: 0, photo: "" },
+    { id: "ssk-omsin", name: "ออมสิน", team: "", pts: 0, photo: "" },
+    { id: "pcm-khaopluak", name: "ข้าวเปลือก", team: "", pts: 0, photo: "" },
+    { id: "ysp-tonnam", name: "ต้นน้ำ", team: "", pts: 0, photo: "" },
+    { id: "ysp-plaeng", name: "เพลง", team: "", pts: 0, photo: "" },
+    { id: "pcm-din", name: "ดิน", team: "", pts: 0, photo: "" },
+    { id: "pcm-popey", name: "ปอเป้ย", team: "", pts: 0, photo: "" },
+    { id: "bcm-tonnam", name: "ต้นน้ำ", team: "", pts: 0, photo: "" },
+    { id: "bcm-evan", name: "เอเว่น", team: "", pts: 0, photo: "" },
+    { id: "lkh-nu", name: "ณุ", team: "", pts: 0, photo: "" },
+    { id: "bcm-peem", name: "ภีม", team: "", pts: 0, photo: "" },
+    { id: "kkh-punpun", name: "ปันปัน", team: "", pts: 0, photo: "" },
+    { id: "bcm-kimbab", name: "คิมบับ", team: "", pts: 0, photo: "" },
+    { id: "bcm-prae", name: "แพร", team: "", pts: 0, photo: "" },
+    { id: "skw-tangwai", name: "ตังหวาย", team: "", pts: 0, photo: "" },
+    { id: "skw-jao", name: "จ้าว", team: "", pts: 0, photo: "" },
+    { id: "ysp-ryu", name: "ริว", team: "", pts: 0, photo: "" },
+    { id: "amn-kookkik", name: "กุ๊กกิ๊ก", team: "", pts: 0, photo: "" },
+    { id: "amn-nampun", name: "น้ำพั้น", team: "", pts: 0, photo: "" },
+    { id: "ysp-punngen", name: "ปั้นเงิน", team: "", pts: 0, photo: "" },
+    { id: "pcm-sen", name: "เซน", team: "", pts: 0, photo: "" },
+    { id: "bcm-music", name: "มิวสิค", team: "", pts: 0, photo: "" },
+    { id: "ysp-tew", name: "ทิว", team: "", pts: 0, photo: "" },
+    { id: "ssk-bonus", name: "โบนัส", team: "", pts: 0, photo: "" },
+    { id: "skw-tongjai", name: "ต้องใจ", team: "", pts: 0, photo: "" },
+    { id: "lnt-kan", name: "กัญ", team: "", pts: 0, photo: "" },
+    { id: "bcm-august", name: "ออกัส", team: "", pts: 0, photo: "" },
 ];
 
 // ============================================================
@@ -273,6 +273,20 @@ function listenPlayers() {
         renderBoard();
     });
 }
+
+// Uncomment and run in the browser console to sync team scores to member totals
+// async function syncTeamScores() {
+//   const totals = {};
+//   Object.values(players).forEach(p => {
+//     if (!p.team) return;
+//     totals[p.team] = (totals[p.team] || 0) + p.pts;
+//   });
+//   for (const [teamId, total] of Object.entries(totals)) {
+//     await updateDoc(doc(db, "teams", teamId), { pts: total });
+//   }
+//   console.log("Team scores synced!", totals);
+// }
+// syncTeamScores();
 
 // ============================================================
 //  INIT
