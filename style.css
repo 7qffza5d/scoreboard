@@ -38,7 +38,7 @@ body {
 
 /* ---- Header ---- */
 .lb-title {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 2.2rem;
     font-weight: 700;
     text-align: center;
@@ -61,7 +61,7 @@ body {
 }
 
 .tab {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1rem;
     font-weight: 600;
     padding: 7px 28px;
@@ -107,7 +107,7 @@ body {
 }
 
 .rank-num {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1rem;
     font-weight: 700;
     min-width: 28px;
@@ -121,7 +121,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1rem;
     font-weight: 700;
     flex-shrink: 0;
@@ -140,7 +140,7 @@ body {
 }
 
 .pname {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1rem;
     font-weight: 700;
     white-space: nowrap;
@@ -159,7 +159,7 @@ body {
 }
 
 .pts-big {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1.5rem;
     font-weight: 700;
     display: block;
@@ -176,7 +176,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 3rem;
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1.1rem;
     color: #888;
 }
@@ -185,7 +185,7 @@ body {
 .admin-toggle {
     display: block;
     margin: 2rem auto 0;
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 0.9rem;
     padding: 6px 20px;
     border-radius: 999px;
@@ -222,7 +222,7 @@ body {
 }
 
 #pin-gate label {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1rem;
     color: #555;
 }
@@ -243,7 +243,7 @@ body {
 }
 
 #pin-submit {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 0.95rem;
     padding: 6px 18px;
     border-radius: 999px;
@@ -267,7 +267,7 @@ body {
 }
 
 .admin-heading {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 10px;
@@ -302,7 +302,7 @@ body {
 }
 
 .adj-btn {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 0.85rem;
     padding: 3px 9px;
     border-radius: 6px;
@@ -317,7 +317,7 @@ body {
 }
 
 .admin-pts {
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 1rem;
     font-weight: 700;
     min-width: 36px;
@@ -327,7 +327,7 @@ body {
 .close-admin-btn {
     display: block;
     margin: 1.25rem auto 0;
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: 0.9rem;
     padding: 6px 20px;
     border-radius: 999px;
