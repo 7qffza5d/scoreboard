@@ -106,7 +106,7 @@ function medal(r) {
     return r === 1 ? "🥇" : r === 2 ? "🥈" : r === 3 ? "🥉" : "";
 }
 
-const BASE_URL = "https://YOUR-USERNAME.github.io/scoreboard/";
+const BASE_URL = "https://7qffza5d.github.io/scoreboard/";
 
 function avatarHTML(player, team) {
   const bg    = dark ? team.colorDark : team.colorLight;
