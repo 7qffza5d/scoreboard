@@ -109,13 +109,13 @@ function medal(r) {
 const BASE_URL = "https://YOUR-USERNAME.github.io/scoreboard/";
 
 function avatarHTML(player, team) {
-    const bg = dark ? team.colorDark : team.colorLight;
-    const color = team.colorText;
-    if (player.photo) {
-        const src = BASE_URL + player.photo + ".png";
-        return `<div class="avatar"><img src="${src}" alt="${player.name}"></div>`;
-    }
-    return `<div class="avatar" style="background:${bg};color:${color}">${player.name}</div>`;
+  const bg    = dark ? team.colorDark : team.colorLight;
+  const color = team.colorText;
+  if (player.photo) {
+    const src = BASE_URL + player.photo + ".png";
+    return `<div class="avatar"><img src="${src}" alt="${player.name}"></div>`;
+  }
+  return `<div class="avatar" style="background:${bg};color:${color}">${player.name}</div>`;
 }
 
 function renderBoard() {
