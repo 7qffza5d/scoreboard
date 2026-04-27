@@ -197,7 +197,7 @@ function renderAdmin() {
       <div class="admin-section" style="margin-top:1.5rem">
         <div class="admin-heading">Team scores</div>
         ${teamsSorted.map(t => `<div class="admin-row">
-          <span class="admin-name" style="color:${t.colorText}">${t.name}</span>
+          <span class="admin-name" style="color:${t.colorLight}">${t.name}</span>
           <div class="admin-controls">
             <button class="adj-btn" onclick="adjustTeam('${t.id}',-10)">−10</button>
             <button class="adj-btn" onclick="adjustTeam('${t.id}',-5)">−5</button>
