@@ -204,6 +204,7 @@ body {
 #admin-drawer {
     margin-top: 1rem;
     display: none;
+    background-color: #666;
 }
 
 .drawer-inner {
