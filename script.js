@@ -2,6 +2,10 @@
 //  FIREBASE CONFIGURATION
 // ============================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import {
+  getFirestore, collection, doc, getDoc, getDocs,
+  setDoc, updateDoc, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDvdqWjl5UkHEwdd0XBkhUXuyKCN4NpcfU",
