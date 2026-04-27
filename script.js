@@ -58,7 +58,7 @@ const INITIAL_PLAYERS = [
     { id: "kkh-punpun", name: "ปันปัน", team: "", pts: 0, photo: "images/kkh-punpun" },
     { id: "bcm-kimbab", name: "คิมบับ", team: "", pts: 0, photo: "images/bcm-kimbab" },
     { id: "bcm-prae", name: "แพร", team: "", pts: 0, photo: "images/bcm-prae" },
-    { id: "skw-tangwai", name: "ตังหวาย", team: "", pts: 0, photo: "images/sskw-tangwai" },
+    { id: "skw-tangwai", name: "ตังหวาย", team: "", pts: 0, photo: "images/skw-tangwai" },
     { id: "skw-jao", name: "จ้าว", team: "", pts: 0, photo: "images/ssk-jao" },
     { id: "ysp-ryu", name: "ริว", team: "", pts: 0, photo: "images/ysp-ryu" },
     { id: "amn-kookkik", name: "กุ๊กกิ๊ก", team: "", pts: 0, photo: "images/amn-kookkik" },
@@ -112,7 +112,7 @@ function avatarHTML(player, team) {
     const bg = dark ? team.colorDark : team.colorLight;
     const color = team.colorText;
     if (player.photo) {
-        const src = BASE_URL + player.photo;
+        const src = BASE_URL + player.photo + ".png";
         return `<div class="avatar"><img src="${src}" alt="${player.name}"></div>`;
     }
     return `<div class="avatar" style="background:${bg};color:${color}">${player.name}</div>`;
