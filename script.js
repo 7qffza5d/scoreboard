@@ -28,12 +28,12 @@ const ADMIN_PIN = "3516";
 //  ignored if the documents already exist.
 // ============================================================
 const INITIAL_TEAMS = [
-    { id: "red", name: "Red Hawks", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 410 },
-    { id: "blue", name: "Blue Dolphins", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 390 },
-    { id: "green", name: "Green Foxes", colorLight: "#EAF3DE", colorDark: "#27500A", colorText: "#3B6D11", pts: 375 },
-    { id: "amber", name: "Gold Bears", colorLight: "#FAEEDA", colorDark: "#633806", colorText: "#854F0B", pts: 355 },
-    { id: "purple", name: "Purple Owls", colorLight: "#EEEDFE", colorDark: "#3C3489", colorText: "#534AB7", pts: 340 },
-    { id: "teal", name: "Teal Turtles", colorLight: "#E1F5EE", colorDark: "#085041", colorText: "#0F6E56", pts: 300 },
+    { id: "red", name: "Team 1", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 410 },
+    { id: "amber", name: "Team 2", colorLight: "#FAEEDA", colorDark: "#633806", colorText: "#854F0B", pts: 355 },
+    { id: "green", name: "Team 3", colorLight: "#EAF3DE", colorDark: "#27500A", colorText: "#3B6D11", pts: 375 },
+    { id: "teal", name: "Team 4", colorLight: "#E1F5EE", colorDark: "#085041", colorText: "#0F6E56", pts: 300 },
+    { id: "blue", name: "Team 5", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 390 },
+    { id: "purple", name: "Team 6", colorLight: "#EEEDFE", colorDark: "#3C3489", colorText: "#534AB7", pts: 340 }
 ];
 
 const INITIAL_PLAYERS = [
