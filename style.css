@@ -79,6 +79,12 @@ body {
     color: #fff;
 }
 
+.active-house {
+    background: #1D9E75;
+    border-color: #1D9E75;
+    color: #fff;
+}
+
 .active-team {
     background: #1D9E75;
     border-color: #1D9E75;

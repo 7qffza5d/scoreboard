@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scoreboard</title>
-<script type="module" src="script.js"></script>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scoreboard</title>
+  <script type="module" src="script.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="container">
+  <div class="container">
 
-  <div class="lb-title">Scoreboard</div>
-  <p class="lb-sub">SCiUS UBU 12 Orientation Camp</p>
+    <div class="lb-title">Scoreboard</div>
+    <p class="lb-sub">SCiUS UBU 12 Orientation Camp</p>
 
-  <div class="tabs">
-    <button class="tab active-ind" id="tab-ind"  onclick="showTab('ind')">Individual</button>
-    <button class="tab"            id="tab-house" onclick="showTab('house')">Houses</button>
-    <button class="tab"            id="tab-team" onclick="showTab('teams')">Teams</button>
-  </div>
-
-  <div id="loading">Loading scores&hellip;</div>
-
-  <div id="board-ind"  class="board"></div>
-  <div id="board-team" class="board" style="display:none"></div>
-
-  <!-- Admin toggle -->
-  <button class="admin-toggle" onclick="toggleAdminDrawer()">Admin</button>
-
-  <div id="admin-drawer">
-    <div class="drawer-inner">
-
-      <div id="pin-gate">
-        <label for="pin-input">Enter PIN:</label>
-        <input type="password" id="pin-input" maxlength="8" placeholder="••••"
-               onkeydown="if(event.key==='Enter') openAdmin()">
-        <button id="pin-submit" onclick="openAdmin()">Unlock</button>
-        <span id="pin-error">Incorrect PIN. Try again.</span>
-      </div>
-
-      <div id="admin-panel">
-        <!-- populated by renderAdmin() -->
-        <button class="close-admin-btn" onclick="closeAdmin()">Lock admin</button>
-      </div>
-
+    <div class="tabs">
+      <button class="tab active-ind" id="tab-ind" onclick="showTab('ind')">Individual</button>
+      <button class="tab" id="tab-house" onclick="showTab('house')">Houses</button>
+      <button class="tab" id="tab-team" onclick="showTab('team')">Teams</button>
     </div>
-  </div>
 
-</div>
+    <div id="loading">Loading scores&hellip;</div>
+
+    <div id="board-ind" class="board"></div>
+    <div id="board-house" class="board"></div>
+    <div id="board-team" class="board"></div>
+
+    <!-- Admin toggle -->
+    <button class="admin-toggle" onclick="toggleAdminDrawer()">Admin</button>
+
+    <div id="admin-drawer">
+      <div class="drawer-inner">
+
+        <div id="pin-gate">
+          <label for="pin-input">Enter PIN:</label>
+          <input type="password" id="pin-input" maxlength="8" placeholder="••••"
+            onkeydown="if(event.key==='Enter') openAdmin()">
+          <button id="pin-submit" onclick="openAdmin()">Unlock</button>
+          <span id="pin-error">Incorrect PIN. Try again.</span>
+        </div>
+
+        <div id="admin-panel">
+          <!-- populated by renderAdmin() -->
+          <button class="close-admin-btn" onclick="closeAdmin()">Lock admin</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </body>
+
 </html>
