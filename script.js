@@ -32,13 +32,13 @@ const ADMIN_PIN = "3516";
 //  ignored if the documents already exist.
 // ============================================================
 const INITIAL_TEAMS = [
-    { id: "red", name: "Team 1", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 410 },
-    { id: "amber", name: "Team 2", colorLight: "#FAEEDA", colorDark: "#633806", colorText: "#854F0B", pts: 355 },
-    { id: "green", name: "Team 3", colorLight: "#EAF3DE", colorDark: "#27500A", colorText: "#3B6D11", pts: 375 },
-    { id: "teal", name: "Team 4", colorLight: "#E1F5EE", colorDark: "#085041", colorText: "#0F6E56", pts: 300 },
-    { id: "blue", name: "Team 5", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 390 },
-    { id: "purple", name: "Team 6", colorLight: "#EEEDFE", colorDark: "#3C3489", colorText: "#534AB7", pts: 340 }
-];
+    { id: "red1", name: "Team 1", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
+    { id: "red2", name: "Team 2", colorLight: "#FAEEDA", colorDark: "#633806", colorText: "#854F0B", pts: 0 },
+    { id: "blue1", name: "Team 3", colorLight: "#EAF3DE", colorDark: "#27500A", colorText: "#3B6D11", pts: 0 },
+    { id: "blue2", name: "Team 4", colorLight: "#E1F5EE", colorDark: "#085041", colorText: "#0F6E56", pts: 0 },
+    { id: "yellow1", name: "Team 5", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
+    { id: "yellow2", name: "Team 6", colorLight: "#141417", colorDark: "#3C3489", colorText: "#534AB7", pts: 0 }
+]; 
 
 const INITIAL_PLAYERS = [
     { id: "pcm-lookoon", name: "ลูกคุณ", team: "", pts: 0, photo: "images/pcm-lookoon" },
@@ -54,12 +54,12 @@ const INITIAL_PLAYERS = [
     { id: "bcm-tonnam", name: "ต้นน้ำ", team: "", pts: 0, photo: "images/bcm-tonnam" },
     { id: "bcm-evan", name: "เอเว่น", team: "", pts: 0, photo: "images/bcm-evan" },
     { id: "lkh-nu", name: "ณุ", team: "", pts: 0, photo: "images/lkh-nu" },
-    { id: "bcm-peem", name: "ภีม", team: "", pts: 0, photo: "images/bcm-nu" },
+    { id: "bcm-peem", name: "ภีม", team: "", pts: 0, photo: "images/bcm-peem" },
     { id: "kkh-punpun", name: "ปันปัน", team: "", pts: 0, photo: "images/kkh-punpun" },
     { id: "bcm-kimbab", name: "คิมบับ", team: "", pts: 0, photo: "images/bcm-kimbab" },
     { id: "bcm-prae", name: "แพร", team: "", pts: 0, photo: "images/bcm-prae" },
     { id: "skw-tangwai", name: "ตังหวาย", team: "", pts: 0, photo: "images/skw-tangwai" },
-    { id: "skw-jao", name: "จ้าว", team: "", pts: 0, photo: "images/ssk-jao" },
+    { id: "skw-jao", name: "จ้าว", team: "", pts: 0, photo: "images/skw-jao" },
     { id: "ysp-ryu", name: "ริว", team: "", pts: 0, photo: "images/ysp-ryu" },
     { id: "amn-kookkik", name: "กุ๊กกิ๊ก", team: "", pts: 0, photo: "images/amn-kookkik" },
     { id: "amn-nampun", name: "น้ำพั้น", team: "", pts: 0, photo: "images/amn-nampun" },
@@ -73,9 +73,9 @@ const INITIAL_PLAYERS = [
     { id: "bcm-august", name: "ออกัส", team: "", pts: 0, photo: "images/bcm-august" },
 ];
 
-// ============================================================
-//  SEED (runs once per doc if it doesn't exist yet)
-// ============================================================
+// // ============================================================
+// //  SEED (runs once per doc if it doesn't exist yet)
+// // ============================================================
 async function seedIfNeeded() {
     for (const t of INITIAL_TEAMS) {
         const ref = doc(db, "teams", t.id);
@@ -212,16 +212,31 @@ function renderAdmin() {
 // ============================================================
 //  SCORE UPDATES
 // ============================================================
+async function syncTeamScores() {
+  const totals = {};
+  Object.values(players).forEach(p => {
+    if (!p.team) return;
+    totals[p.team] = (totals[p.team] || 0) + p.pts;
+  });
+  for (const [team, total] of Object.entries(totals)) {
+    await updateDoc(doc(db, "teams", team), { pts: total });
+  }
+}
+
 window.adjustPlayer = async function (id, delta) {
     const current = players[id].pts;
     const next = Math.max(0, current + delta);
     await updateDoc(doc(db, "players", id), { pts: next });
+    syncTeamScores();
 };
 
 window.adjustTeam = async function (id, delta) {
-    const current = teams[id].pts;
-    const next = Math.max(0, current + delta);
-    await updateDoc(doc(db, "teams", id), { pts: next });
+  const members = Object.values(players).filter(p => p.team === id);
+  const perMember = Math.round(delta / members.length);
+  for (const p of members) {
+    const next = Math.max(0, p.pts + perMember);
+    await updateDoc(doc(db, "players", p.id), { pts: next });
+  }
 };
 
 // ============================================================
