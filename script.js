@@ -32,13 +32,13 @@ const ADMIN_PIN = "3516";
 //  ignored if the documents already exist.
 // ============================================================
 const INITIAL_TEAMS = [
-    { id: "red1", name: "Team 1", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
-    { id: "red2", name: "Team 2", colorLight: "#FAEEDA", colorDark: "#633806", colorText: "#854F0B", pts: 0 },
-    { id: "blue1", name: "Team 3", colorLight: "#EAF3DE", colorDark: "#27500A", colorText: "#3B6D11", pts: 0 },
-    { id: "blue2", name: "Team 4", colorLight: "#E1F5EE", colorDark: "#085041", colorText: "#0F6E56", pts: 0 },
-    { id: "yellow1", name: "Team 5", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
-    { id: "yellow2", name: "Team 6", colorLight: "#141417", colorDark: "#3C3489", colorText: "#534AB7", pts: 0 }
-]; 
+  { id:"red1",    name:"Team 1",    colorLight:"#FAECE7", colorDark:"#712B13", colorText:"#993C1D", pts:0 },
+  { id:"red2",    name:"Team 2",    colorLight:"#F5D5CC", colorDark:"#8F1F08", colorText:"#B5391C", pts:0 },
+  { id:"blue1",   name:"Team 3",   colorLight:"#E6F1FB", colorDark:"#0C447C", colorText:"#185FA5", pts:0 },
+  { id:"blue2",   name:"Team 4",   colorLight:"#C9E2F7", colorDark:"#083060", colorText:"#0D4A87", pts:0 },
+  { id:"yellow1", name:"Team 5", colorLight:"#FEF9E7", colorDark:"#7A5C00", colorText:"#A07C00", pts:0 },
+  { id:"yellow2", name:"Team 6", colorLight:"#FDF0C0", colorDark:"#5C4200", colorText:"#856000", pts:0 },
+];
 
 const INITIAL_PLAYERS = [
     { id: "pcm-lookoon", name: "ลูกคุณ", team: "", pts: 0, photo: "images/pcm-lookoon" },
