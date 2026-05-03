@@ -38,45 +38,45 @@ const INITIAL_TEAMS = [
 ]
 
 const INITIAL_HOUSES = [
-  { id: "red1", name: "House 1", team: "red", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
-  { id: "red2", name: "House 2", team: "red", colorLight: "#F5D5CC", colorDark: "#8F1F08", colorText: "#B5391C", pts: 0 },
-  { id: "blue1", name: "House 3", team: "blue", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
-  { id: "blue2", name: "House 4", team: "blue", colorLight: "#C9E2F7", colorDark: "#083060", colorText: "#0D4A87", pts: 0 },
-  { id: "yellow1", name: "House 5", team: "yellow", colorLight: "#FEF9E7", colorDark: "#7A5C00", colorText: "#A07C00", pts: 0 },
-  { id: "yellow2", name: "House 6", team: "yellow", colorLight: "#FDF0C0", colorDark: "#5C4200", colorText: "#856000", pts: 0 },
+  { id: "1", name: "House 1", team: "red", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
+  { id: "2", name: "House 2", team: "red", colorLight: "#F5D5CC", colorDark: "#8F1F08", colorText: "#B5391C", pts: 0 },
+  { id: "3", name: "House 3", team: "blue", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
+  { id: "4", name: "House 4", team: "blue", colorLight: "#C9E2F7", colorDark: "#083060", colorText: "#0D4A87", pts: 0 },
+  { id: "5", name: "House 5", team: "yellow", colorLight: "#FEF9E7", colorDark: "#7A5C00", colorText: "#A07C00", pts: 0 },
+  { id: "6", name: "House 6", team: "yellow", colorLight: "#FDF0C0", colorDark: "#5C4200", colorText: "#856000", pts: 0 },
 ];
 
 const INITIAL_PLAYERS = [
-  { id: "pcm-lookoon", name: "ลูกคุณ", house: "red1", pts: 0, photo: "images/pcm-lookoon" },
-  { id: "bcm-atta", name: "อัตตา", house: "red1", pts: 0, photo: "images/bcm-atta" },
-  { id: "bcm-pukan", name: "พู่กัน", house: "red1", pts: 0, photo: "images/bcm-pukan" },
-  { id: "ssk-top", name: "ท็อป", house: "red1", pts: 0, photo: "images/ssk-top" },
-  { id: "ssk-omsin", name: "ออมสิน", house: "red1", pts: 0, photo: "images/ssk-omsin" },
-  { id: "pcm-khaopluak", name: "ข้าวเปลือก", house: "red2", pts: 0, photo: "images/pcm-khaopluak" },
-  { id: "ysp-tonnam", name: "ต้นน้ำ", house: "red2", pts: 0, photo: "images/ysp-tonnam" },
-  { id: "ysp-plaeng", name: "เพลง", house: "red2", pts: 0, photo: "images/ysp-plaeng" },
-  { id: "pcm-din", name: "ดิน", house: "red2", pts: 0, photo: "images/pcm-din" },
-  { id: "pcm-popey", name: "ปอเป้ย", house: "red2", pts: 0, photo: "images/pcm-popey" },
-  { id: "bcm-tonnam", name: "ต้นน้ำ", house: "blue1", pts: 0, photo: "images/bcm-tonnam" },
-  { id: "bcm-evan", name: "เอเว่น", house: "blue1", pts: 0, photo: "images/bcm-evan" },
-  { id: "lkh-nu", name: "ณุ", house: "blue1", pts: 0, photo: "images/lkh-nu" },
-  { id: "bcm-peem", name: "ภีม", house: "blue1", pts: 0, photo: "images/bcm-peem" },
-  { id: "kkh-punpun", name: "ปันปัน", house: "blue1", pts: 0, photo: "images/kkh-punpun" },
-  { id: "bcm-kimbab", name: "คิมบับ", house: "blue2", pts: 0, photo: "images/bcm-kimbab" },
-  { id: "bcm-prae", name: "แพร", house: "blue2", pts: 0, photo: "images/bcm-prae" },
-  { id: "skw-tangwai", name: "ตังหวาย", house: "blue2", pts: 0, photo: "images/skw-tangwai" },
-  { id: "skw-jao", name: "จ้าว", house: "blue2", pts: 0, photo: "images/skw-jao" },
-  { id: "ysp-ryu", name: "ริว", house: "blue2", pts: 0, photo: "images/ysp-ryu" },
-  { id: "amn-kookkik", name: "กุ๊กกิ๊ก", house: "blue2", pts: 0, photo: "images/amn-kookkik" },
-  { id: "amn-nampun", name: "น้ำพั้น", house: "yellow1", pts: 0, photo: "images/amn-nampun" },
-  { id: "ysp-punngen", name: "ปั้นเงิน", house: "yellow1", pts: 0, photo: "images/ysp-punngen" },
-  { id: "pcm-sen", name: "เซน", house: "yellow1", pts: 0, photo: "images/pcm-sen" },
-  { id: "bcm-music", name: "มิวสิค", house: "yellow1", pts: 0, photo: "images/bcm-music" },
-  { id: "ysp-tew", name: "ทิว", house: "yellow2", pts: 0, photo: "images/ysp-tew" },
-  { id: "ssk-bonus", name: "โบนัส", house: "yellow2", pts: 0, photo: "images/ssk-bonus" },
-  { id: "skw-tongjai", name: "ต้องใจ", house: "yellow2", pts: 0, photo: "images/skw-tongjai" },
-  { id: "lnt-kan", name: "กัญ", house: "yellow2", pts: 0, photo: "images/lnt-kun" },
-  { id: "bcm-august", name: "ออกัส", house: "yellow2", pts: 0, photo: "images/bcm-august" },
+  { id: "pcm-lookoon", name: "ลูกคุณ", house: "3", pts: 0, photo: "images/pcm-lookoon" },
+  { id: "bcm-atta", name: "อัตตา", house: "1", pts: 0, photo: "images/bcm-atta" },
+  { id: "bcm-pukan", name: "พู่กัน", house: "2", pts: 0, photo: "images/bcm-pukan" },
+  { id: "ssk-top", name: "ท็อป", house: "1", pts: 0, photo: "images/ssk-top" },
+  { id: "ssk-omsin", name: "ออมสิน", house: "3", pts: 0, photo: "images/ssk-omsin" },
+  { id: "pcm-khaopluak", name: "ข้าวเปลือก", house: "6", pts: 0, photo: "images/pcm-khaopluak" },
+  { id: "ysp-tonnam", name: "ต้นน้ำ", house: "6", pts: 0, photo: "images/ysp-tonnam" },
+  { id: "ysp-plaeng", name: "เพลง", house: "6", pts: 0, photo: "images/ysp-plaeng" },
+  { id: "pcm-din", name: "ดิน", house: "1", pts: 0, photo: "images/pcm-din" },
+  { id: "pcm-popey", name: "ปอเป้ย", house: "2", pts: 0, photo: "images/pcm-popey" },
+  { id: "bcm-tonnam", name: "ต้นน้ำ", house: "1", pts: 0, photo: "images/bcm-tonnam" },
+  { id: "bcm-evan", name: "เอเว่น", house: "5", pts: 0, photo: "images/bcm-evan" },
+  { id: "lkh-nu", name: "ณุ", house: "2", pts: 0, photo: "images/lkh-nu" },
+  { id: "bcm-peem", name: "ภีม", house: "2", pts: 0, photo: "images/bcm-peem" },
+  { id: "kkh-punpun", name: "ปันปัน", house: "5", pts: 0, photo: "images/kkh-punpun" },
+  { id: "bcm-kimbab", name: "คิมบับ", house: "1", pts: 0, photo: "images/bcm-kimbab" },
+  { id: "bcm-prae", name: "แพร", house: "6", pts: 0, photo: "images/bcm-prae" },
+  { id: "skw-tangwai", name: "ตังหวาย", house: "5", pts: 0, photo: "images/skw-tangwai" },
+  { id: "skw-jao", name: "จ้าว", house: "3", pts: 0, photo: "images/skw-jao" },
+  { id: "ysp-ryu", name: "ริว", house: "3", pts: 0, photo: "images/ysp-ryu" },
+  { id: "amn-kookkik", name: "กุ๊กกิ๊ก", house: "2", pts: 0, photo: "images/amn-kookkik" },
+  { id: "amn-nampun", name: "น้ำพั้น", house: "4", pts: 0, photo: "images/amn-nampun" },
+  { id: "ysp-punngen", name: "ปั้นเงิน", house: "4", pts: 0, photo: "images/ysp-punngen" },
+  { id: "pcm-sen", name: "เซน", house: "5", pts: 0, photo: "images/pcm-sen" },
+  { id: "bcm-music", name: "มิวสิค", house: "5", pts: 0, photo: "images/bcm-music" },
+  { id: "ysp-tew", name: "ทิว", house: "4", pts: 0, photo: "images/ysp-tew" },
+  { id: "ssk-bonus", name: "โบนัส", house: "4", pts: 0, photo: "images/ssk-bonus" },
+  { id: "skw-tongjai", name: "ต้องใจ", house: "6", pts: 0, photo: "images/skw-tongjai" },
+  { id: "lnt-kan", name: "กัญ", house: "3", pts: 0, photo: "images/lnt-kun" },
+  { id: "bcm-august", name: "ออกัส", house: "4", pts: 0, photo: "images/bcm-august" },
 ];
 
 // // ============================================================
@@ -385,7 +385,7 @@ function listenPlayers() {
 // ============================================================
 async function init() {
   document.getElementById("loading").style.display = "flex";
-  await seedIfNeeded();
+  // await seedIfNeeded();
   listenTeams();
   listenHouses();
   listenPlayers();
