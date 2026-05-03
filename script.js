@@ -108,6 +108,7 @@ let houses = {};
 let players = {};
 let currentTab = "ind";
 let adminOpen = false;
+let teamView = true;
 
 // ============================================================
 //  RENDER
@@ -163,7 +164,7 @@ function renderBoard() {
 function renderHouse() {
   const sorted = Object.values(houses).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
   const board = document.getElementById("board-house");
-  if (!board) return;
+  if (!board || teamView) return;
   board.innerHTML = sorted.map((t, i) => {
     const r = i + 1;
     const bg = dark ? t.colorDark : t.colorLight;
@@ -185,7 +186,7 @@ function renderHouse() {
 function renderTeam() {
   const sorted = Object.values(teams).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
   const board = document.getElementById("board-team");
-  if (!board) return;
+  if (!board || !teamView) return;
   board.innerHTML = sorted.map((t, i) => {
     const r = i + 1;
     const bg = dark ? t.colorDark : t.colorLight;
@@ -386,7 +387,7 @@ function listenPlayers() {
 // ============================================================
 async function init() {
   document.getElementById("loading").style.display = "flex";
-  await seedIfNeeded();
+  // await seedIfNeeded();
   listenTeams();
   listenHouses();
   listenPlayers();
