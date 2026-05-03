@@ -233,7 +233,7 @@ function renderAdmin() {
       <div class="admin-section" style="margin-top:1.5rem">
         <div class="admin-heading">House scores</div>
         ${housesSorted.map(h => `<div class="admin-row">
-          <span class="admin-name" style="color:${t.colorLight}">${t.name}</span>
+          <span class="admin-name" style="color:${h.colorLight}">${h.name}</span>
           <div class="admin-controls">
             <button class="adj-btn" onclick="adjustHouse('${h.id}',-10)">−10</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',-5)">−5</button>
@@ -386,7 +386,7 @@ function listenPlayers() {
 // ============================================================
 async function init() {
   document.getElementById("loading").style.display = "flex";
-  // await seedIfNeeded();
+  await seedIfNeeded();
   listenTeams();
   listenHouses();
   listenPlayers();
