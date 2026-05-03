@@ -232,14 +232,14 @@ function renderAdmin() {
       </div>
       <div class="admin-section" style="margin-top:1.5rem">
         <div class="admin-heading">House scores</div>
-        ${housesSorted.map(t => `<div class="admin-row">
+        ${housesSorted.map(h => `<div class="admin-row">
           <span class="admin-name" style="color:${t.colorLight}">${t.name}</span>
           <div class="admin-controls">
-            <button class="adj-btn" onclick="adjustHouse('${t.id}',-10)">−10</button>
-            <button class="adj-btn" onclick="adjustHouse('${t.id}',-5)">−5</button>
-            <span class="admin-pts">${t.pts}</span>
-            <button class="adj-btn" onclick="adjustHouse('${t.id}',5)">+5</button>
-            <button class="adj-btn" onclick="adjustHouse('${t.id}',10)">+10</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',-10)">−10</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',-5)">−5</button>
+            <span class="admin-pts">${h.pts}</span>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',5)">+5</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',10)">+10</button>
           </div>
         </div>`).join("")}
         </div>
@@ -286,7 +286,7 @@ async function syncHouseScores() {
 
 window.adjustPlayer = async function (id, delta) {
   const current = players[id].pts;
-  const next = Math.max(0, current + delta);
+  const next = current + delta;
   await updateDoc(doc(db, "players", id), { pts: next });
   syncHouseScores();
 };
@@ -296,7 +296,7 @@ window.adjustHouse = async function (id, delta) {
   const members = Object.values(players).filter(p => p.house === id);
   const perMember = Math.round(delta / members.length);
   for (const p of members) {
-    const next = Math.max(0, p.pts + perMember);
+    const next = p.pts + perMember;
     await updateDoc(doc(db, "players", p.id), { pts: next });
   }
   await updateDoc(doc(db, "houses", id), { pts: (current + delta) });
@@ -308,7 +308,7 @@ window.adjustTeam = async function (id, delta) {
   const members = Object.values(houses).filter(h => h.team === id);
   const perMember = Math.round(delta / members.length);
   for (const h of members) {
-    const next = Math.max(0, h.pts + perMember);
+    const next = h.pts + perMember;
     adjustHouse(h.id, next);
   }
   await updateDoc(doc(db, "teams", id), { pts: (current + delta) });
