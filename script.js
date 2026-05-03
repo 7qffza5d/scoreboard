@@ -131,34 +131,34 @@ function avatarHTML(player, house) {
 }
 
 function renderBoard() {
-  renderInd();
+  //renderInd();
   renderHouse();
   renderTeam();
   renderAdmin();
 }
 
-function renderInd() {
-  const sorted = Object.values(players).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
-  const board = document.getElementById("board-ind");
-  if (!board) return;
-  board.innerHTML = sorted.map((p, i) => {
-    const t = houses[p.house] || {};
-    const r = i + 1;
-    const bg = dark ? t.colorDark : t.colorLight;
-    return `<div class="row" style="background:${bg}">
-        <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
-        ${avatarHTML(p, t)}
-        <div class="info">
-          <div class="pname" style="color:${t.colorText}">${p.name}</div>
-          <div class="psub">${t.name || ""}</div>
-        </div>
-        <div class="pts-wrap">
-          <span class="pts-big" style="color:${t.colorText}">${p.pts}</span>
-          <span class="pts-lbl">pts</span>
-        </div>
-      </div>`;
-  }).join("");
-}
+// function renderInd() {
+//   const sorted = Object.values(players).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
+//   const board = document.getElementById("board-ind");
+//   if (!board) return;
+//   board.innerHTML = sorted.map((p, i) => {
+//     const t = houses[p.house] || {};
+//     const r = i + 1;
+//     const bg = dark ? t.colorDark : t.colorLight;
+//     return `<div class="row" style="background:${bg}">
+//         <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
+//         ${avatarHTML(p, t)}
+//         <div class="info">
+//           <div class="pname" style="color:${t.colorText}">${p.name}</div>
+//           <div class="psub">${t.name || ""}</div>
+//         </div>
+//         <div class="pts-wrap">
+//           <span class="pts-big" style="color:${t.colorText}">${p.pts}</span>
+//           <span class="pts-lbl">pts</span>
+//         </div>
+//       </div>`;
+//   }).join("");
+// }
 
 function renderHouse() {
   const sorted = Object.values(houses).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
