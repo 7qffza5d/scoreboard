@@ -309,7 +309,8 @@ window.adjustTeam = async function (id, delta) {
   const perMember = Math.round(delta / members.length);
   for (const h of members) {
     const next = h.pts + perMember;
-    adjustHouse(h.id, next);
+    const delta = next - h.pts;
+    adjustHouse(h.id, delta);
   }
   await updateDoc(doc(db, "teams", id), { pts: (current + delta) });
 };
