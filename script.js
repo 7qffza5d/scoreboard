@@ -32,18 +32,18 @@ const ADMIN_PIN = "3516";
 //  ignored if the documents already exist.
 // ============================================================
 const INITIAL_TEAMS = [
-  { id: "red", name: "Team 1", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
-  { id: "blue", name: "Team 2", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
-  { id: "yellow", name: "Team 3", colorLight: "#FEF9E7", colorDark: "#7A5C00", colorText: "#A07C00", pts: 0 },
+  { id: "1", name: "Team 1", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
+  { id: "2", name: "Team 2", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
+  { id: "3", name: "Team 3", colorLight: "#FEF9E7", colorDark: "#7A5C00", colorText: "#A07C00", pts: 0 },
 ]
 
 const INITIAL_HOUSES = [
-  { id: "1", name: "House 1", team: "red", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
-  { id: "2", name: "House 2", team: "red", colorLight: "#F5D5CC", colorDark: "#8F1F08", colorText: "#B5391C", pts: 0 },
-  { id: "3", name: "House 3", team: "blue", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
-  { id: "4", name: "House 4", team: "blue", colorLight: "#C9E2F7", colorDark: "#083060", colorText: "#0D4A87", pts: 0 },
-  { id: "5", name: "House 5", team: "yellow", colorLight: "#FEF9E7", colorDark: "#7A5C00", colorText: "#A07C00", pts: 0 },
-  { id: "6", name: "House 6", team: "yellow", colorLight: "#FDF0C0", colorDark: "#5C4200", colorText: "#856000", pts: 0 },
+  { id: "1", name: "House 1", team: "1", colorLight: "#FAECE7", colorDark: "#712B13", colorText: "#993C1D", pts: 0 },
+  { id: "2", name: "House 2", team: "1", colorLight: "#F5D5CC", colorDark: "#8F1F08", colorText: "#B5391C", pts: 0 },
+  { id: "3", name: "House 3", team: "2", colorLight: "#E6F1FB", colorDark: "#0C447C", colorText: "#185FA5", pts: 0 },
+  { id: "4", name: "House 4", team: "2", colorLight: "#C9E2F7", colorDark: "#083060", colorText: "#0D4A87", pts: 0 },
+  { id: "5", name: "House 5", team: "3", colorLight: "#FEF9E7", colorDark: "#7A5C00", colorText: "#A07C00", pts: 0 },
+  { id: "6", name: "House 6", team: "3", colorLight: "#FDF0C0", colorDark: "#5C4200", colorText: "#856000", pts: 0 },
 ];
 
 const INITIAL_PLAYERS = [
@@ -108,6 +108,7 @@ let houses = {};
 let players = {};
 let currentTab = "team";
 let adminOpen = false;
+const teId = new Map();
 
 // ============================================================
 //  RENDER
@@ -217,16 +218,23 @@ function renderAdmin() {
       <div class="admin-section">
         <div class="admin-heading">Individual scores</div>
         ${playersSorted.map(p => {
-    const t = houses[p.house - "1"] || {};
+    const t = houses[p.house] || {};
     return `<div class="admin-row">
             <span class="admin-name">${p.name}</span>
             <span class="admin-house" style="color:${t.colorText}">${t.name || ""}</span>
             <div class="admin-controls">
               <button class="adj-btn" onclick="adjustPlayer('${p.id}',-5)">−5</button>
               <button class="adj-btn" onclick="adjustPlayer('${p.id}',-1)">−1</button>
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-0.1)">−0.1</button>
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-0.01)">−0.01</button>
               <span class="admin-pts">${p.pts}</span>
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',0.01)">+0.01</button>
+              <button class="adj-btn" onclick="adjustPlayer('${p.id}',0.1)">+0.1</button>
               <button class="adj-btn" onclick="adjustPlayer('${p.id}',1)">+1</button>
               <button class="adj-btn" onclick="adjustPlayer('${p.id}',5)">+5</button>
+              <input type="number" placeholder="set"
+                style="width:64px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:'Courier Prime', 'Courier New', monospace;font-size:0.9rem;"
+                onchange="setIndScore('${p.id}', this.value); this.value='';">
             </div>
           </div>`;
   }).join("")}
@@ -238,9 +246,16 @@ function renderAdmin() {
           <div class="admin-controls">
             <button class="adj-btn" onclick="adjustHouse('${h.id}',-10)">−10</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',-5)">−5</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',-0.1)">−0.1</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',-0.01)">−0.01</button>
             <span class="admin-pts">${h.pts}</span>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',0.01)">+0.01</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',0.1)">+0.1</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',5)">+5</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',10)">+10</button>
+            <input type="number" placeholder="set"
+              style="width:64px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:'Courier Prime', 'Courier New', monospace;font-size:0.9rem;"
+              onchange="setHouseScore('${h.id}', this.value); this.value='';">
           </div>
         </div>`).join("")}
         </div>
@@ -251,9 +266,16 @@ function renderAdmin() {
           <div class="admin-controls">
             <button class="adj-btn" onclick="adjustTeam('${t.id}',-20)">−20</button>
             <button class="adj-btn" onclick="adjustTeam('${t.id}',-10)">−10</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',-0.1)">−0.1</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',-0.01)">−0.01</button>
             <span class="admin-pts">${t.pts}</span>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',0.01)">+0.01</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',0.1)">+0.1</button>
             <button class="adj-btn" onclick="adjustTeam('${t.id}',10)">+10</button>
             <button class="adj-btn" onclick="adjustTeam('${t.id}',20)">+20</button>
+            <input type="number" placeholder="set"
+              style="width:64px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:'Courier Prime', 'Courier New', monospace;font-size:0.9rem;"
+              onchange="setTeamScore('${t.id}', this.value); this.value='';">
           </div>
         </div>`).join("")}
       </div>
@@ -263,6 +285,27 @@ function renderAdmin() {
 // ============================================================
 //  SCORE UPDATES
 // ============================================================
+window.setTeamScore = async function (id, value) {
+  const parsed = parseFloat(parseFloat(value).toFixed(2));
+  if (isNaN(parsed) || parsed < 0) return;
+  const currentTotal = teams[id].pts;
+  await adjustTeam(id, parsed - currentTotal);
+};
+
+window.setHouseScore = async function (id, value) {
+  const parsed = parseFloat(parseFloat(value).toFixed(2));
+  if (isNaN(parsed) || parsed < 0) return;
+  const currentTotal = houses[id].pts;
+  await adjustHouse(id, parsed - currentTotal);
+};
+
+window.setIndScore = async function (id, value) {
+  const parsed = parseFloat(parseFloat(value).toFixed(2));
+  if (isNaN(parsed) || parsed < 0) return;
+  const currentTotal = players[id].pts;
+  await adjustPlayer(id, parsed - currentTotal);
+};
+
 async function syncTeamScores() {
   const totals = {};
   Object.values(houses).forEach(h => {
@@ -289,7 +332,8 @@ window.adjustPlayer = async function (id, delta) {
   const current = players[id].pts;
   const next = current + delta;
   await updateDoc(doc(db, "players", id), { pts: next });
-  syncHouseScores();
+  await syncHouseScores();
+  await syncTeamScores();
 };
 
 window.adjustHouse = async function (id, delta) {
@@ -301,7 +345,7 @@ window.adjustHouse = async function (id, delta) {
     await updateDoc(doc(db, "players", p.id), { pts: next });
   }
   await updateDoc(doc(db, "houses", id), { pts: (current + delta) });
-  syncTeamScores();
+  await syncTeamScores();
 };
 
 window.adjustTeam = async function (id, delta) {
@@ -309,11 +353,9 @@ window.adjustTeam = async function (id, delta) {
   const members = Object.values(houses).filter(h => h.team === id);
   const perMember = Math.round(delta / members.length);
   for (const h of members) {
-    const next = h.pts + perMember;
-    const delta = next - h.pts;
-    adjustHouse(h.id, delta);
+    adjustHouse(h.id, perMember);
   }
-  await updateDoc(doc(db, "teams", id), { pts: (current + delta) });
+  // await updateDoc(doc(db, "teams", id), { pts: (current + delta) });
 };
 
 // ============================================================
@@ -388,6 +430,9 @@ function listenPlayers() {
 async function init() {
   document.getElementById("loading").style.display = "flex";
   // await seedIfNeeded();
+  teId.set("red", 0);
+  teId.set("blue", 1);
+  teId.set("yellow", 2);
   listenTeams();
   listenHouses();
   listenPlayers();
