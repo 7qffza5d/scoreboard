@@ -246,11 +246,11 @@ function renderAdmin() {
           <div class="admin-controls">
             <button class="adj-btn" onclick="adjustHouse('${h.id}',-10)">−10</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',-5)">−5</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',-1)">−1</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',-0.1)">−0.1</button>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',-0.01)">−0.01</button>
             <span class="admin-pts">${h.pts}</span>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',0.01)">+0.01</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',0.1)">+0.1</button>
+            <button class="adj-btn" onclick="adjustHouse('${h.id}',1)">+1</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',5)">+5</button>
             <button class="adj-btn" onclick="adjustHouse('${h.id}',10)">+10</button>
             <input type="number" placeholder="set"
@@ -266,11 +266,11 @@ function renderAdmin() {
           <div class="admin-controls">
             <button class="adj-btn" onclick="adjustTeam('${t.id}',-20)">−20</button>
             <button class="adj-btn" onclick="adjustTeam('${t.id}',-10)">−10</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',-0.1)">−0.1</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',-0.01)">−0.01</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',-1)">−1</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',-0.2)">−0.2</button>
             <span class="admin-pts">${t.pts}</span>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',0.01)">+0.01</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',0.1)">+0.1</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',0.2)">+0.2</button>
+            <button class="adj-btn" onclick="adjustTeam('${t.id}',1)">+1</button>
             <button class="adj-btn" onclick="adjustTeam('${t.id}',10)">+10</button>
             <button class="adj-btn" onclick="adjustTeam('${t.id}',20)">+20</button>
             <input type="number" placeholder="set"
