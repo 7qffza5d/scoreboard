@@ -131,35 +131,35 @@ function avatarHTML(player, house) {
 }
 
 function renderBoard() {
-  //renderInd();
+  renderInd();
   renderHouse();
   renderTeam();
   renderAdmin();
   showTab(currentTab);
 }
 
-// function renderInd() {
-//   const sorted = Object.values(players).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
-//   const board = document.getElementById("board-ind");
-//   if (!board) return;
-//   board.innerHTML = sorted.map((p, i) => {
-//     const t = houses[p.house] || {};
-//     const r = i + 1;
-//     const bg = dark ? t.colorDark : t.colorLight;
-//     return `<div class="row" style="background:${bg}">
-//         <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
-//         ${avatarHTML(p, t)}
-//         <div class="info">
-//           <div class="pname" style="color:${t.colorText}">${p.name}</div>
-//           <div class="psub">${t.name || ""}</div>
-//         </div>
-//         <div class="pts-wrap">
-//           <span class="pts-big" style="color:${t.colorText}">${p.pts}</span>
-//           <span class="pts-lbl">pts</span>
-//         </div>
-//       </div>`;
-//   }).join("");
-// }
+function renderInd() {
+  const sorted = Object.values(players).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
+  const board = document.getElementById("board-ind");
+  if (!board) return;
+  board.innerHTML = sorted.map((p, i) => {
+    const t = houses[p.house] || {};
+    const r = i + 1;
+    const bg = dark ? t.colorDark : t.colorLight;
+    return `<div class="row" style="background:${bg}">
+        <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
+        ${avatarHTML(p, t)}
+        <div class="info">
+          <div class="pname" style="color:${t.colorText}">${p.name}</div>
+          <div class="psub">${t.name || ""}</div>
+        </div>
+        <div class="pts-wrap">
+          <span class="pts-big" style="color:${t.colorText}">${p.pts}</span>
+          <span class="pts-lbl">pts</span>
+        </div>
+      </div>`;
+  }).join("");
+}
 
 function renderHouse() {
   const sorted = Object.values(houses).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
@@ -217,7 +217,7 @@ function renderAdmin() {
       <div class="admin-section">
         <div class="admin-heading">Individual scores</div>
         ${playersSorted.map(p => {
-    const t = houses[p.house] || {};
+    const t = houses[p.house - "1"] || {};
     return `<div class="admin-row">
             <span class="admin-name">${p.name}</span>
             <span class="admin-house" style="color:${t.colorText}">${t.name || ""}</span>
@@ -321,10 +321,10 @@ window.adjustTeam = async function (id, delta) {
 // ============================================================
 window.showTab = function (tab) {
   currentTab = tab;
-  //document.getElementById("board-ind").style.display = tab === "ind" ? "flex" : "none";
+  document.getElementById("board-ind").style.display = tab === "ind" ? "flex" : "none";
   document.getElementById("board-house").style.display = tab === "house" ? "flex" : "none";
   document.getElementById("board-team").style.display = tab === "team" ? "flex" : "none";
-  //document.getElementById("tab-ind").className = "tab" + (tab === "ind" ? " active-ind" : "");
+  document.getElementById("tab-ind").className = "tab" + (tab === "ind" ? " active-ind" : "");
   document.getElementById("tab-house").className = "tab" + (tab === "house" ? " active-house" : "");
   document.getElementById("tab-team").className = "tab" + (tab === "team" ? " active-team" : "");
 };
