@@ -223,15 +223,7 @@ function renderAdmin() {
             <span class="admin-name">${p.name}</span>
             <span class="admin-house" style="color:${t.colorText}">${t.name || ""}</span>
             <div class="admin-controls">
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-5)">−5</button>
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-1)">−1</button>
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-0.1)">−0.1</button>
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',-0.01)">−0.01</button>
-              <span class="admin-pts">${p.pts}</span>
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',0.01)">+0.01</button>
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',0.1)">+0.1</button>
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',1)">+1</button>
-              <button class="adj-btn" onclick="adjustPlayer('${p.id}',5)">+5</button>
+              <span class="admin-pts">${precise(p.pts)}</span>
               <input type="number" placeholder="set"
                 style="width:64px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:'Courier Prime', 'Courier New', monospace;font-size:0.9rem;"
                 onchange="setIndScore('${p.id}', this.value); this.value='';">
@@ -244,15 +236,7 @@ function renderAdmin() {
         ${housesSorted.map(h => `<div class="admin-row">
           <span class="admin-name" style="color:${h.colorLight}">${h.name}</span>
           <div class="admin-controls">
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',-10)">−10</button>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',-5)">−5</button>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',-1)">−1</button>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',-0.1)">−0.1</button>
-            <span class="admin-pts">${h.pts}</span>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',0.1)">+0.1</button>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',1)">+1</button>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',5)">+5</button>
-            <button class="adj-btn" onclick="adjustHouse('${h.id}',10)">+10</button>
+            <span class="admin-pts">${precise(h.pts)}</span>
             <input type="number" placeholder="set"
               style="width:64px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:'Courier Prime', 'Courier New', monospace;font-size:0.9rem;"
               onchange="setHouseScore('${h.id}', this.value); this.value='';">
@@ -264,15 +248,7 @@ function renderAdmin() {
         ${teamsSorted.map(t => `<div class="admin-row">
           <span class="admin-name" style="color:${t.colorLight}">${t.name}</span>
           <div class="admin-controls">
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',-20)">−20</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',-10)">−10</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',-1)">−1</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',-0.2)">−0.2</button>
-            <span class="admin-pts">${t.pts}</span>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',0.2)">+0.2</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',1)">+1</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',10)">+10</button>
-            <button class="adj-btn" onclick="adjustTeam('${t.id}',20)">+20</button>
+            <span class="admin-pts">${precise(t.pts)}</span>
             <input type="number" placeholder="set"
               style="width:64px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:'Courier Prime', 'Courier New', monospace;font-size:0.9rem;"
               onchange="setTeamScore('${t.id}', this.value); this.value='';">
@@ -285,6 +261,12 @@ function renderAdmin() {
 // ============================================================
 //  SCORE UPDATES
 // ============================================================
+window.precise = function (pts) {
+  if (pts === 0) return "0.00";
+  const digits = Math.floor(Math.log10(Math.abs(pts)) + 1);
+  return pts.toPrecision(digits + 2);
+};
+
 window.setTeamScore = async function (id, value) {
   const parsed = parseFloat(parseFloat(value).toFixed(2));
   if (isNaN(parsed) || parsed < 0) return;
@@ -307,6 +289,7 @@ window.setIndScore = async function (id, value) {
 };
 
 async function syncTeamScores() {
+  if (Object.keys(houses).length === 0) return;
   const totals = {};
   Object.values(houses).forEach(h => {
     if (!h.team) return;
@@ -318,6 +301,7 @@ async function syncTeamScores() {
 }
 
 async function syncHouseScores() {
+  if (Object.keys(players).length === 0) return;
   const totals = {};
   Object.values(players).forEach(p => {
     if (!p.house) return;
@@ -353,7 +337,7 @@ window.adjustTeam = async function (id, delta) {
   const members = Object.values(houses).filter(h => h.team === id);
   const perMember = Math.round(delta / members.length);
   for (const h of members) {
-    adjustHouse(h.id, perMember);
+    await adjustHouse(h.id, perMember);
   }
   // await updateDoc(doc(db, "teams", id), { pts: (current + delta) });
 };
@@ -430,9 +414,6 @@ function listenPlayers() {
 async function init() {
   document.getElementById("loading").style.display = "flex";
   // await seedIfNeeded();
-  teId.set("red", 0);
-  teId.set("blue", 1);
-  teId.set("yellow", 2);
   listenTeams();
   listenHouses();
   listenPlayers();
