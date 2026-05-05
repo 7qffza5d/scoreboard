@@ -140,7 +140,9 @@ function renderBoard() {
 }
 
 function renderInd() {
-  const sorted = Object.values(players).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name)).slice(0, 10);
+  const sorted = Object.values(players)
+    .sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name))
+    .slice(0, 10);
   const board = document.getElementById("board-ind");
   if (!board) return;
   board.innerHTML = sorted.map((p, i) => {
