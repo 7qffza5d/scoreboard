@@ -140,7 +140,7 @@ function renderBoard() {
 }
 
 function renderInd() {
-  const sorted = Object.values(players).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
+  const sorted = Object.values(players).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name)).slice(0, 10);
   const board = document.getElementById("board-ind");
   if (!board) return;
   board.innerHTML = sorted.map((p, i) => {
@@ -155,7 +155,7 @@ function renderInd() {
           <div class="psub">${t.name || ""}</div>
         </div>
         <div class="pts-wrap">
-          <span class="pts-big" style="color:${t.colorText}">${p.pts}</span>
+          <span class="pts-big" style="color:${t.colorText}">${precise(p.pts)}</span>
           <span class="pts-lbl">pts</span>
         </div>
       </div>`;
@@ -177,7 +177,7 @@ function renderHouse() {
           <div class="psub">House total</div>
         </div>
         <div class="pts-wrap">
-          <span class="pts-big" style="color:${t.colorText}">${t.pts}</span>
+          <span class="pts-big" style="color:${t.colorText}">${precise(t.pts)}</span>
           <span class="pts-lbl">pts</span>
         </div>
       </div>`;
@@ -199,7 +199,7 @@ function renderTeam() {
           <div class="psub">House total</div>
         </div>
         <div class="pts-wrap">
-          <span class="pts-big" style="color:${t.colorText}">${t.pts}</span>
+          <span class="pts-big" style="color:${t.colorText}">${precise(t.pts)}</span>
           <span class="pts-lbl">pts</span>
         </div>
       </div>`;
