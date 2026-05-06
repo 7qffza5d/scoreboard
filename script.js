@@ -337,7 +337,7 @@ window.adjustHouse = async function (id, delta) {
 window.adjustTeam = async function (id, delta) {
   const current = teams[id].pts;
   const members = Object.values(houses).filter(h => h.team === id);
-  const perMember = Math.round(delta / members.length);
+  const perMember = delta / members.length;
   for (const h of members) {
     await adjustHouse(h.id, perMember);
   }
