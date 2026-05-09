@@ -145,9 +145,15 @@ function renderInd() {
     .slice(0, 10);
   const board = document.getElementById("board-ind");
   if (!board) return;
+  const ranks = [];
+  for (let i = 0; i < sorted.length; i++) {
+    if (i === 0) ranks.push(1);
+    else if (sorted[i].pts === sorted[i - 1].pts) ranks.push(ranks[i - 1]);
+    else ranks.push(i + 1);
+  }
   board.innerHTML = sorted.map((p, i) => {
     const t = houses[p.house] || {};
-    const r = i + 1;
+    const r = ranks[i];
     const bg = dark ? t.colorDark : t.colorLight;
     return `<div class="row" style="background:${bg}">
         <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
@@ -168,8 +174,14 @@ function renderHouse() {
   const sorted = Object.values(houses).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
   const board = document.getElementById("board-house");
   if (!board) return;
+  const ranks = [];
+  for (let i = 0; i < sorted.length; i++) {
+    if (i === 0) ranks.push(1);
+    else if (sorted[i].pts === sorted[i - 1].pts) ranks.push(ranks[i - 1]);
+    else ranks.push(i + 1);
+  }
   board.innerHTML = sorted.map((t, i) => {
-    const r = i + 1;
+    const r = ranks[i];
     const bg = dark ? t.colorDark : t.colorLight;
     return `<div class="row" style="background:${bg}">
         <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
@@ -190,8 +202,14 @@ function renderTeam() {
   const sorted = Object.values(teams).sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name));
   const board = document.getElementById("board-team");
   if (!board) return;
+  const ranks = [];
+  for (let i = 0; i < sorted.length; i++) {
+    if (i === 0) ranks.push(1);
+    else if (sorted[i].pts === sorted[i - 1].pts) ranks.push(ranks[i - 1]);
+    else ranks.push(i + 1);
+  }
   board.innerHTML = sorted.map((t, i) => {
-    const r = i + 1;
+    const r = ranks[i];
     const bg = dark ? t.colorDark : t.colorLight;
     return `<div class="row" style="background:${bg}">
         <span class="rank-num" style="color:${t.colorText}">${medal(r) || r}</span>
