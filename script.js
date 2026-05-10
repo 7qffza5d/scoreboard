@@ -142,7 +142,6 @@ function renderBoard() {
 function renderInd() {
   const sorted = Object.values(players)
     .sort((a, b) => b.pts - a.pts || a.name.localeCompare(b.name))
-    .slice(0, 10);
   const board = document.getElementById("board-ind");
   if (!board) return;
   const ranks = [];
@@ -151,7 +150,9 @@ function renderInd() {
     else if (sorted[i].pts === sorted[i - 1].pts) ranks.push(ranks[i - 1]);
     else ranks.push(i + 1);
   }
-  board.innerHTML = sorted.map((p, i) => {
+  const cutoffRank = ranks[Math.min(9, sorted.length - 1)];
+  const display = sorted.filter((p, i) => ranks[i] <= cutoffRank);
+  board.innerHTML = display.map((p, i) => {
     const t = houses[p.house] || {};
     const r = ranks[i];
     const bg = dark ? t.colorDark : t.colorLight;
