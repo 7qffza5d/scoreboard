@@ -283,6 +283,7 @@ function renderAdmin() {
 //  SCORE UPDATES
 // ============================================================
 window.precise = function (pts) {
+  if (pts < 0) return pts;
   if (pts === 0) return "0.00";
   const digits = Math.floor(Math.log10(Math.abs(pts)) + 1);
   return pts.toPrecision(digits + 2);
